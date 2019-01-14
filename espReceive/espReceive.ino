@@ -15,23 +15,21 @@
 
 unsigned int counter = 0;  
 SSD1306 display(0x3c, 4, 15);
-//SSD1306 display(0x3c, 4, 15)
 String rssi = "RSSI --";
 String packSize = "--";
 String packet ;
 
 void setup() {
-  pinMode(16,OUTPUT); //RST do oled
+  pinMode(16,OUTPUT);
   pinMode(25,OUTPUT);
-  digitalWrite(16, LOW); // reseta o OLED
+  digitalWrite(16, LOW); 
   delay(50); 
-  digitalWrite(16, HIGH); // enquanto o OLED estiver ligado, GPIO16 deve estar HIGH
- 
-  display.init(); //inicializa o display
+  digitalWrite(16, HIGH); 
+  display.init();
   display.flipScreenVertically(); 
-  display.setFont(ArialMT_Plain_10); //configura a fonte para um tamanho maior
+  display.setFont(ArialMT_Plain_10); 
   delay(1500);
-  display.clear(); //apaga todo o conteúdo da tela do display
+  display.clear();
 
   Serial.begin(115200);
   SPI.begin(SCK,MISO,MOSI,SS);
@@ -39,14 +37,9 @@ void setup() {
   
   if (!LoRa.begin(BAND)) {
     display.drawString(0, 0, "Starting LoRa failed!");
-    display.drawString(0, 10, "Wait for incomm data...");
     display.display();
     while (1);
   }
-  
-  //LoRa.setTxPower(20);
-  //LoRa.setPreambleLength(65535);
-  LoRa.setSignalBandwidth(7.8E3);
   display.drawString(0, 0, "LoRa Initial success!");
   display.display();
   delay(1000);
@@ -59,13 +52,10 @@ void loop() {
     display.clear();
     display.setTextAlignment(TEXT_ALIGN_LEFT);
     display.setFont(ArialMT_Plain_10);
-
     String data = LoRa.readString();
     display.drawString(0 , 18 , "Rx "+ (String)packetSize + " bytes");
-    //display.drawStringMaxWidth(0, 39, 128, LoRa.readString());
     display.drawString(0,39, data);
     display.drawString(0, 0, "RSSI: " + (String)LoRa.packetRssi() + " SNR: " + (String)LoRa.packetSnr()); 
-    
     display.display();
     Serial.print(packetSize);
     Serial.print(LoRa.readString());

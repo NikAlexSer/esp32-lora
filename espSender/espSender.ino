@@ -20,17 +20,17 @@ String packSize = "--";
 String packet ;
 
 void setup() {
-  pinMode(16,OUTPUT); //RST do oled
+  pinMode(16,OUTPUT);
   pinMode(25,OUTPUT);
-  digitalWrite(16, LOW); // reseta o OLED
+  digitalWrite(16, LOW); 
   delay(50); 
-  digitalWrite(16, HIGH); // enquanto o OLED estiver ligado, GPIO16 deve estar HIGH
+  digitalWrite(16, HIGH); /
  
-  display.init(); //inicializa o display
+  display.init(); 
   display.flipScreenVertically(); 
-  display.setFont(ArialMT_Plain_10); //configura a fonte para um tamanho maior
+  display.setFont(ArialMT_Plain_10);
   delay(1500);
-  display.clear(); //apaga todo o conteúdo da tela do display
+  display.clear(); 
  
   SPI.begin(SCK,MISO,MOSI,SS);
   LoRa.setPins(SS,RST,DI00);
@@ -53,15 +53,12 @@ void loop() {
   display.drawString(40, 26, String(counter));
   display.display();   
    
-  //beginPacket : abre um pacote para adicionarmos os dados para envio
   LoRa.beginPacket();
-  //print: adiciona os dados no pacote
   LoRa.print("{id: 1, ziga: 'hi o/', " + (String)counter + "}");
-  //LoRa.print("{id: 1, message: 'Hi o/', cnt: " + counter);
-  LoRa.endPacket(); //retorno= 1:sucesso | 0: falha
+  LoRa.endPacket(); 
   counter++; 
-  digitalWrite(2, HIGH); // liga o LED indicativo
-  delay(500); // aguarda 500ms
-  digitalWrite(2, LOW); // desliga o LED indicativo
-  delay(500); // aguarda 500ms
+  digitalWrite(2, HIGH); 
+  delay(500); 
+  digitalWrite(2, LOW);
+  delay(500); 
 }
